@@ -1,0 +1,40 @@
+﻿@using BookCommerce1.Model
+@model List<BookCommerce1.Model.Kategoria>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-primary">Lista e kategorive</h2>
+        </div>
+        <div class="col-6">
+            <a asp-controller="Kategori" asp-action="Krijo" class="btn btn-primary">Shto</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Emri</th>
+            <th>Renditja</th>
+            <th>Veprimi</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Kategoria kat in Model)
+        {
+            <tr>
+                <td>@kat.Id</td>
+                    <td>@kat.Emri</td>
+                <td>@kat.Renditja</td>
+                <td>
+                    <div class="w-75 btn-group">
+                        <a asp-controller="Kategori" asp-action="Ndrysho" asp-route-id="@kat.Id" class="btn btn-primary mx-1">Ndrysho</a>
+                        <a asp-controller="Kategori" asp-action="Fshi" asp-route-id="@kat.Id" class="btn btn-primary mx-1">Fshi</a>
+                    </div>
+                </td>
+            </tr>
+        }
+       
+        </tbody>
+    </table>
+</div>
