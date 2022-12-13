@@ -19,7 +19,37 @@ namespace BookCommerce1.Web.Areas.Admin.Controllers
 
         public IActionResult Krijo()
         {
-            return View();
+            Kategoria kat = new Kategoria();
+            return View(kat);
+        }
+        [HttpPost]
+        public IActionResult Krijo(Kategoria kategoria)
+        {
+            if (ModelState.IsValid)
+            {
+                _konteksti.Kategorite.Add(kategoria);
+                _konteksti.SaveChanges();
+                return RedirectToAction("Listo");
+            }
+
+            return View(kategoria);
+        }
+        public IActionResult Ndrysho(int? id)
+        {
+            Kategoria kat = new Kategoria();
+            return View(kat);
+        }
+        [HttpPost]
+        public IActionResult Ndrysho(Kategoria kategoria)
+        {
+            if (ModelState.IsValid)
+            {
+                _konteksti.Kategorite.Add(kategoria);
+                _konteksti.SaveChanges();
+                return RedirectToAction("Listo");
+            }
+
+            return View(kategoria);
         }
     }
 }
