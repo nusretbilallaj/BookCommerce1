@@ -29,14 +29,25 @@ namespace BookCommerce1.Web.Areas.Admin.Controllers
             {
                 _konteksti.Kategorite.Add(kategoria);
                 _konteksti.SaveChanges();
+                TempData["suksesi"] = "U shtua me sukses";
                 return RedirectToAction("Listo");
             }
 
             return View(kategoria);
         }
-        public IActionResult Ndrysho(int? id)
+        public IActionResult Ndrysho(int? categoriId)
         {
-            Kategoria kat = new Kategoria();
+            if (categoriId==null || categoriId==0)
+            {
+                return NotFound();
+            }
+
+            var kat= _konteksti.Kategorite.Find(categoriId);
+            if (kat==null)
+            {
+                return NotFound();
+            }
+
             return View(kat);
         }
         [HttpPost]
@@ -44,12 +55,44 @@ namespace BookCommerce1.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _konteksti.Kategorite.Add(kategoria);
+                _konteksti.Kategorite.Update(kategoria);
                 _konteksti.SaveChanges();
+                TempData["suksesi"] = "U ndryshua me sukses";
                 return RedirectToAction("Listo");
             }
 
             return View(kategoria);
         }
+
+        public IActionResult Fshi(int? categoriId)
+        {
+            if (categoriId == null || categoriId == 0)
+            {
+                return NotFound();
+            }
+
+            var kat = _konteksti.Kategorite.Find(categoriId);
+            if (kat == null)
+            {
+                return NotFound();
+            }
+
+            return View(kat);
+        }
+        [HttpPost,ActionName("Fshi")]
+        public IActionResult FshiPost(int? categoriId)
+        {
+            var kat = _konteksti.Kategorite.Find(categoriId);
+            if (kat == null)
+            {
+                return NotFound();
+            }
+            _konteksti.Kategorite.Remove(kat);
+            _konteksti.SaveChanges();
+            TempData["fshiMeSukes"] = "Eshte fshire me sukses";
+            return RedirectToAction("Listo");
+
+        }
+
     }
 }
