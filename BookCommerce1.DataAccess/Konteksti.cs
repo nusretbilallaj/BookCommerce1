@@ -17,6 +17,8 @@ namespace BookCommerce1.DataAccess
         }
 
         public DbSet<Kategoria> Kategorite { get; set; }
+        public DbSet<NenKategoria> NenKategorite { get; set; }
         public DbSet<Mbulesa> Mbulesat { get; set; }
+        public DbSet<Produkti> Produktet { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using BookCommerce1.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookCommerce1.DataAccess.Migrations
 {
     [DbContext(typeof(Konteksti))]
-    partial class KontekstiModelSnapshot : ModelSnapshot
+    [Migration("20221219173519_Shtimi i nenkategorise")]
+    partial class Shtimiinenkategorise
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,61 +79,6 @@ namespace BookCommerce1.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("NenKategoria");
-                });
-
-            modelBuilder.Entity("BookCommerce1.Model.Produkti", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Autori")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Cmimi")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Cmimi100")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Cmimi50")
-                        .HasColumnType("float");
-
-                    b.Property<double>("CmimiBaze")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Emri")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Isbn")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("KategoriaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MbulesaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Pershkrimi")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KategoriaId");
-
-                    b.HasIndex("MbulesaId");
-
-                    b.ToTable("Produkti");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -330,25 +277,6 @@ namespace BookCommerce1.DataAccess.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("BookCommerce1.Model.Produkti", b =>
-                {
-                    b.HasOne("BookCommerce1.Model.Kategoria", "Kategoria")
-                        .WithMany()
-                        .HasForeignKey("KategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookCommerce1.Model.Mbulesa", "Mbulesa")
-                        .WithMany()
-                        .HasForeignKey("MbulesaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Kategoria");
-
-                    b.Navigation("Mbulesa");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
