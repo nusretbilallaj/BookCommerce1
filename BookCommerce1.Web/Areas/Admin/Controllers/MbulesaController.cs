@@ -1,4 +1,5 @@
 ﻿using BookCommerce1.DataAccess;
+using BookCommerce1.DataAccess.Repository.IRepository;
 using BookCommerce1.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,14 +7,15 @@ namespace BookCommerce1.Web.Areas.Admin.Controllers
 {
     public class MbulesaController : Controller
     {
-        private Konteksti _konteksti;
-        public MbulesaController(Konteksti konteksti)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public MbulesaController(IUnitOfWork unitOfWork)
         {
-            _konteksti = konteksti;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Listo()
         {
-            List<Mbulesa> lista = _konteksti.Mbulesat.ToList();
+            List<Mbulesa> lista = _unitOfWork.Mbulesa.ListoTeGjitha().ToList();
             return View(lista);
         }
 
@@ -27,8 +29,8 @@ namespace BookCommerce1.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _konteksti.Mbulesat.Add(mbulesa);
-                _konteksti.SaveChanges();
+                _unitOfWork.Mbulesa.Add(mbulesa);
+                _unitOfWork.Save();
                 TempData["suksesi"] = "U shtua me sukses";
                 return RedirectToAction("Listo");
             }
@@ -42,7 +44,7 @@ namespace BookCommerce1.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var kat= _konteksti.Mbulesat.Find(categoriId);
+            var kat= _unitOfWork.Mbulesa.FirstOrDefault(x=>x.Id==categoriId);
             if (kat==null)
             {
                 return NotFound();
@@ -55,8 +57,8 @@ namespace BookCommerce1.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _konteksti.Mbulesat.Update(mbulesa);
-                _konteksti.SaveChanges();
+                _unitOfWork.Mbulesa.Update(mbulesa);
+                _unitOfWork.Save();
                 TempData["suksesi"] = "U ndryshua me sukses";
                 return RedirectToAction("Listo");
             }
@@ -71,7 +73,7 @@ namespace BookCommerce1.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var kat = _konteksti.Mbulesat.Find(categoriId);
+            var kat = _unitOfWork.Mbulesa.FirstOrDefault(x=>x.Id== categoriId);
             if (kat == null)
             {
                 return NotFound();
@@ -82,13 +84,13 @@ namespace BookCommerce1.Web.Areas.Admin.Controllers
         [HttpPost,ActionName("Fshi")]
         public IActionResult FshiPost(int? categoriId)
         {
-            var kat = _konteksti.Mbulesat.Find(categoriId);
+            var kat = _unitOfWork.Mbulesa.FirstOrDefault(x=>x.Id== categoriId);
             if (kat == null)
             {
                 return NotFound();
             }
-            _konteksti.Mbulesat.Remove(kat);
-            _konteksti.SaveChanges();
+            _unitOfWork.Mbulesa.Remove(kat);
+            _unitOfWork.Save();
             TempData["fshiMeSukes"] = "Eshte fshire me sukses";
             return RedirectToAction("Listo");
 

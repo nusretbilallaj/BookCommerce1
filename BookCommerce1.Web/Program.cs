@@ -1,4 +1,6 @@
 using BookCommerce1.DataAccess;
+using BookCommerce1.DataAccess.Repository;
+using BookCommerce1.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Konteksti>(opcionet=>opcionet.UseSqlServer(
     builder.Configuration.GetConnectionString("Lidhja")
     ));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
